@@ -1,4 +1,4 @@
-﻿import streamlit as st
+import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -7,41 +7,10 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import warnings
-
-# Ignore warnings for cleaner output
 warnings.filterwarnings("ignore")
-# --- CONFIGURATION & PAGE SETUP ---
-st.set_page_config(page_title="UAC Care Load Forecast", layout="wide", page_icon="ðŸ›ï¸")
-
-# --- ABOUT & USER GUIDE SECTION ---
-with st.sidebar:
-    with st.expander("📖 About & User Guide"):
-        st.markdown(""
-        ### 🎯 Project Goal
-        Transition the UAC Program from reactive historical reporting to **predictive intelligence**, enabling HHS decision-makers to anticipate care load and optimize resources.
-
-        ### 🧭 How to Use This Dashboard
-        *   **Forecast Horizon:** Use the slider below to predict care load for the next **7 to 30 days**.
-        *   **Model Toggle:** Switch between **SARIMA** (Statistical) and **Random Forest** (Machine Learning) to compare prediction styles.
-        *   **The Chart:** The **Blue line** is history. The **Orange dashed line** is the forecast. The **shaded area** is the confidence interval (uncertainty).
-
-        ### 💡 Why This Matters
-        *   **Surge Warnings:** Identifies capacity stress days in advance.
-        *   **Staffing:** Allows proactive scheduling of caseworkers and medical staff.
-        *   **Child Welfare:** Reduces overcrowding by anticipating high-intake periods.
-        "")
-    st.markdown("---")
-
-
-# --- ADD THIS FOR THE FOOTER DATE ---
+st.set_page_config(page_title="UAC Care Load Forecast", layout="wide", page_icon="🏛️")
 from datetime import datetime
 today_date = datetime.now().strftime("%B %d, %Y at %I:%M %p")
-
-st.title("ðŸ›ï¸ HHS UAC Program: Predictive Forecasting Dashboard")
-st.markdown("""
-**Background:** Proactive forecasting for the Unaccompanied Alien Children (UAC) Program to anticipate care load and placement demand.
-""")
-
 @st.cache_data
 def load_data():
     try:
@@ -229,3 +198,4 @@ st.caption(f"UAC Program Predictive Dashboard | Data Last Updated: {today_date} 
 with st.sidebar.expander("📖 About & User Guide"):
     st.markdown("Goal: Transition UAC from reactive to predictive intelligence.\n\n**How to use:** Use the slider for forecast days. Toggle models to compare. Blue is history, Orange is forecast.\n\n**Impact:** Proactive staffing, surge warnings, reduced overcrowding.")
     st.markdown("---")
+    
