@@ -62,7 +62,7 @@ df['Rolling_7'] = df['Children in HHS Care'].rolling(window=7).mean()
 df.dropna(inplace=True)
 
 # --- KPI DASHBOARD ---
-st.subheader("ðŸ“Š Current Operational Status (Key Performance Indicators)")
+st.subheader("Current Operational Status (Key Performance Indicators)")
 col1, col2, col3, col4 = st.columns(4)
 
 current_load = df['Children in HHS Care'].iloc[-1]
@@ -75,7 +75,7 @@ col3.metric("7-Day Average Intake", f"{int(df['Rolling_7'].iloc[-1]):,}")
 col4.metric("Capacity Stress Level", "Moderate" if current_load < 10000 else "High")
 
 # --- FORECASTING LOGIC ---
-st.subheader("ðŸ“ˆ Predictive Forecasting")
+st.subheader("Predictive Forecasting")
 
 # Sidebar Controls
 st.sidebar.header("Forecast Configuration")
@@ -184,12 +184,12 @@ def create_plot(df, forecast):
 st.plotly_chart(create_plot(df, forecast_result), use_container_width=True)
 
 #--- RECOMMENDATIONS ---
-st.subheader("ðŸ’¡ Automated Recommendations")
+st.subheader("Automated Recommendations")
 latest_pred = forecast_result['Predicted'].iloc[-1]
 if latest_pred > current_load * 1.05:
     st.warning(f"âš ï¸ **Surge Alert:** Forecast predicts a {((latest_pred/current_load)-1)*100:.1f}% increase in care load. Recommend activating surge capacity protocols.")
 else:
-    st.success("âœ… **Stable:** Forecast indicates stable or decreasing care load. Maintain standard staffing levels.")
+    st.success("**Stable:** Forecast indicates stable or decreasing care load. Maintain standard staffing levels.")
 
 # --- FOOTER (PROFESSIONAL TOUCH) ---
 st.markdown("---")
