@@ -226,3 +226,6 @@ else:
 st.markdown("---")
 st.caption(f"UAC Program Predictive Dashboard | Data Last Updated: {today_date} | HHS Internal Use")
 
+with st.sidebar.expander("📖 About & User Guide"):
+    st.markdown("Goal: Transition UAC from reactive to predictive intelligence.\n\n**How to use:** Use the slider for forecast days. Toggle models to compare. Blue is history, Orange is forecast.\n\n**Impact:** Proactive staffing, surge warnings, reduced overcrowding.")
+    st.markdown("---")
