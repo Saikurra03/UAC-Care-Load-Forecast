@@ -1,4 +1,4 @@
-import streamlit as st
+﻿import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -11,13 +11,33 @@ import warnings
 # Ignore warnings for cleaner output
 warnings.filterwarnings("ignore")
 # --- CONFIGURATION & PAGE SETUP ---
-st.set_page_config(page_title="UAC Care Load Forecast", layout="wide", page_icon="🏛️")
+st.set_page_config(page_title="UAC Care Load Forecast", layout="wide", page_icon="ðŸ›ï¸")
+
+# --- ABOUT & USER GUIDE SECTION ---
+with st.sidebar:
+    with st.expander("📖 About & User Guide"):
+        st.markdown(""
+        ### 🎯 Project Goal
+        Transition the UAC Program from reactive historical reporting to **predictive intelligence**, enabling HHS decision-makers to anticipate care load and optimize resources.
+
+        ### 🧭 How to Use This Dashboard
+        *   **Forecast Horizon:** Use the slider below to predict care load for the next **7 to 30 days**.
+        *   **Model Toggle:** Switch between **SARIMA** (Statistical) and **Random Forest** (Machine Learning) to compare prediction styles.
+        *   **The Chart:** The **Blue line** is history. The **Orange dashed line** is the forecast. The **shaded area** is the confidence interval (uncertainty).
+
+        ### 💡 Why This Matters
+        *   **Surge Warnings:** Identifies capacity stress days in advance.
+        *   **Staffing:** Allows proactive scheduling of caseworkers and medical staff.
+        *   **Child Welfare:** Reduces overcrowding by anticipating high-intake periods.
+        "")
+    st.markdown("---")
+
 
 # --- ADD THIS FOR THE FOOTER DATE ---
 from datetime import datetime
 today_date = datetime.now().strftime("%B %d, %Y at %I:%M %p")
 
-st.title("🏛️ HHS UAC Program: Predictive Forecasting Dashboard")
+st.title("ðŸ›ï¸ HHS UAC Program: Predictive Forecasting Dashboard")
 st.markdown("""
 **Background:** Proactive forecasting for the Unaccompanied Alien Children (UAC) Program to anticipate care load and placement demand.
 """)
@@ -48,7 +68,7 @@ def load_data():
 
         return df
     except FileNotFoundError:
-        st.error("⚠️ Dataset 'uac_data.csv' not found. Loading sample data for demonstration.")
+        st.error("âš ï¸ Dataset 'uac_data.csv' not found. Loading sample data for demonstration.")
         # ... (Keep the sample data code below exactly as it was)
         dates = pd.date_range(start="2023-01-01", periods=180)
         trend = np.linspace(100, 150, 180)
@@ -73,7 +93,7 @@ df['Rolling_7'] = df['Children in HHS Care'].rolling(window=7).mean()
 df.dropna(inplace=True)
 
 # --- KPI DASHBOARD ---
-st.subheader("📊 Current Operational Status (Key Performance Indicators)")
+st.subheader("ðŸ“Š Current Operational Status (Key Performance Indicators)")
 col1, col2, col3, col4 = st.columns(4)
 
 current_load = df['Children in HHS Care'].iloc[-1]
@@ -86,7 +106,7 @@ col3.metric("7-Day Average Intake", f"{int(df['Rolling_7'].iloc[-1]):,}")
 col4.metric("Capacity Stress Level", "Moderate" if current_load < 10000 else "High")
 
 # --- FORECASTING LOGIC ---
-st.subheader("📈 Predictive Forecasting")
+st.subheader("ðŸ“ˆ Predictive Forecasting")
 
 # Sidebar Controls
 st.sidebar.header("Forecast Configuration")
@@ -195,13 +215,14 @@ def create_plot(df, forecast):
 st.plotly_chart(create_plot(df, forecast_result), use_container_width=True)
 
 #--- RECOMMENDATIONS ---
-st.subheader("💡 Automated Recommendations")
+st.subheader("ðŸ’¡ Automated Recommendations")
 latest_pred = forecast_result['Predicted'].iloc[-1]
 if latest_pred > current_load * 1.05:
-    st.warning(f"⚠️ **Surge Alert:** Forecast predicts a {((latest_pred/current_load)-1)*100:.1f}% increase in care load. Recommend activating surge capacity protocols.")
+    st.warning(f"âš ï¸ **Surge Alert:** Forecast predicts a {((latest_pred/current_load)-1)*100:.1f}% increase in care load. Recommend activating surge capacity protocols.")
 else:
-    st.success("✅ **Stable:** Forecast indicates stable or decreasing care load. Maintain standard staffing levels.")
+    st.success("âœ… **Stable:** Forecast indicates stable or decreasing care load. Maintain standard staffing levels.")
 
 # --- FOOTER (PROFESSIONAL TOUCH) ---
 st.markdown("---")
 st.caption(f"UAC Program Predictive Dashboard | Data Last Updated: {today_date} | HHS Internal Use")
+
